@@ -3,6 +3,7 @@ import axios from 'axios';
 export default {
     data() {
         return {
+            search: "",
             myfilms: [],
         }
     },
@@ -11,7 +12,7 @@ export default {
             const options = {
                 method: 'GET',
                 url: 'https://api.themoviedb.org/3/search/movie',
-                params: { include_adult: 'false', language: 'en-US', page: '1', query: "dragon ball" },
+                params: { include_adult: 'false', language: 'en-US', page: '1', query: this.search },
                 // inserire searchbar al posto di dragon ball in modo tale da cercare solo i film cercati dall'utente usando il v-model
                 headers: {
                     accept: 'application/json',
@@ -36,19 +37,32 @@ export default {
 <template>
     <div class="navbar">
         <h1>Boolflix</h1>
-        <button @click="movies">cerca film</button>
+        <div class="find">
+            <input style="margin-right: 0.5rem;" v-model="search">
+            <button @click="movies">cerca film</button>
+        </div>
     </div>
-    <div>{{ myfilms }}</div>
+    <div v-for="film in myfilms">
+        <img v-bind:src="film.poster_path">
+        <h5>Titolo: {{ film.title }}</h5>
+        <p>voto: {{ film.vote_average }}</p>
+        <p>Data uscita:{{ film.release_date }}</p>
+    </div>
     <!-- scrivere ciclo v-for per togliere le quadre dell'array vuoto in browser -->
 </template>
 
 <style scoped>
-.navbar {
+.navbar,
+.find {
     display: flex;
     justify-content: space-between;
 }
 
 .navbar h1 {
     color: red;
+}
+
+img {
+    width: 15rem;
 }
 </style>
