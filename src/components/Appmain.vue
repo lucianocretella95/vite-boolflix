@@ -8,7 +8,6 @@ export default {
         }
     },
     methods: {
-        
         movies() {
             const options = {
                 method: 'GET',
