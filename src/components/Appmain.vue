@@ -5,6 +5,7 @@ export default {
         return {
             search: "",
             myfilms: [],
+            image: 'https://image.tmdb.org/t/p/w342'
         }
     },
     methods: {
@@ -13,7 +14,7 @@ export default {
                 method: 'GET',
                 url: 'https://api.themoviedb.org/3/search/movie',
                 params: { include_adult: 'false', language: 'en-US', page: '1', query: this.search },
-                // inserire searchbar al posto di dragon ball in modo tale da cercare solo i film cercati dall'utente usando il v-model
+                // inserire searchbar in modo tale da cercare solo i film cercati dall'utente usando il v-model
                 headers: {
                     accept: 'application/json',
                     Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkN2U0NzRjYTc5NDZjOGJhZmMyNzJhMjA1OGQ1NmNiMCIsInN1YiI6IjY2NTczM2UxZTU3MjdjNDE2OTFhMWFhYSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.btxNRj6OpZw8zU1TeDw-tgmXpNAdknVbaoCBcfMX4f4'
@@ -42,12 +43,16 @@ export default {
             <button @click="movies">cerca film</button>
         </div>
     </div>
-    <div v-for="film in myfilms">
-        <img v-bind:src="film.poster_path">
-        <h5>Titolo: {{ film.title }}</h5>
-        <p>voto: {{ film.vote_average }}</p>
-        <p>Data uscita:{{ film.release_date }}</p>
+    <div class="cards">
+        <div v-for="film in myfilms">
+            <img style="width: 7rem;" :src="image + film.poster_path">
+            <h5>Titolo: {{ film.title }}</h5>
+            <p style="font-size: 0.7rem;">voto: {{ (film.vote_average / 2) }}</p>
+            <p style="font-size: 0.7rem;">Data uscita:{{ film.release_date }}</p>
+        </div>
     </div>
+
+
     <!-- scrivere ciclo v-for per togliere le quadre dell'array vuoto in browser -->
 </template>
 
@@ -62,7 +67,9 @@ export default {
     color: red;
 }
 
-img {
-    width: 15rem;
+.cards {
+    display: flex;
+    justify-content: start;
+    flex-wrap: wrap;
 }
 </style>
